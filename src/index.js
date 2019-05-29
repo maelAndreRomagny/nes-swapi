@@ -5,38 +5,53 @@ import "./styles.css";
 
 const character = {
   name: "Luke Skywalker",
-  birth_year: "19BBY",
+  birthyear: "19BBY",
   gender: "male"
+};
+
+const emptychar = {
+  name: "",
+  birthyear: "",
+  gender: ""
 };
 
 class HeartToggle extends Component {
   constructor(props) {
     super(props);
-    this.state = { heartState: true };
+
+    this.name = "";
+    this.gender = "";
+    this.birthyear = "";
+
+    this.state = { heartState: false };
   }
 
   onHeartClick() {
     if (this.state.heartState) {
       this.setState({ heartState: false });
+      this.Character(emptychar);
     } else {
       this.setState({ heartState: true });
+      this.Character(character);
     }
   }
 
-  Character() {
-    return null;
+  Character(perso) {
+    this.name = perso.name;
+    this.gender = perso.gender;
+    this.birthyear = perso.birthyear;
   }
 
   render() {
     return (
-      <div className="nes-container with-title dt ma3">
-        <span className="title">{character.name}</span>
+      <div className="nes-container with-title dt ma3 relative center">
+        <span className="title">{this.name}</span>
 
         <div className="fl">
-          <p>Gender: </p>
-          <p>Birth: </p>
+          <p>Gender: {this.gender}</p>
+          <p>Birth: {this.birthyear}</p>
         </div>
-        <div className="di">
+        <div className="di ma3">
           {this.state.heartState ? (
             <i
               className="nes-icon is-large heart fr"
