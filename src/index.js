@@ -3,6 +3,12 @@ import ReactDOM from "react-dom";
 
 import "./styles.css";
 
+const character = {
+  name: "Luke Skywalker",
+  birth_year: "19BBY",
+  gender: "male"
+};
+
 class HeartToggle extends Component {
   constructor(props) {
     super(props);
@@ -17,17 +23,18 @@ class HeartToggle extends Component {
     }
   }
 
+  Character() {
+    return null;
+  }
+
   render() {
     return (
       <div className="nes-container with-title dt ma3">
-        <span className="title">Star Wars character</span>
+        <span className="title">{character.name}</span>
 
         <div className="fl">
-          <p>Name: </p>
           <p>Gender: </p>
           <p>Birth: </p>
-          <p>Homeworld: </p>
-          <p>Species: </p>
         </div>
         <div className="di">
           {this.state.heartState ? (
