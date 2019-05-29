@@ -34,17 +34,6 @@ function Character({ character, heartFull, onHeartClicked, getCharFromSWAPI }) {
           />
         </div>
       </div>
-      <div class="nes-field">
-        <label for="name_field" />
-        <input
-          type="text"
-          id="name_field"
-          className="nes-input relative center"
-          placeholder="Rechercher un personnage"
-          style={{ width: "420px" }}
-          //onSubmit={this.searchChar}
-        />
-      </div>
     </div>
   );
 }
@@ -69,6 +58,8 @@ class HeartToggle extends Component {
     this.onHeartClick();
   }
 
+  searchChar(text) {}
+
   generateNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
@@ -81,6 +72,7 @@ class HeartToggle extends Component {
   }
   //88 personnages (perso random)
   getCharFromSWAPI() {
+    //Mauvaise méthode
     this.state.randInt = this.generateNumber(
       this.state.randMin,
       this.state.randMax
