@@ -3,68 +3,115 @@ import ReactDOM from "react-dom";
 
 import "./styles.css";
 
-const character = {
+/* const character = {
   name: "Luke Skywalker",
   birthyear: "19BBY",
   gender: "male"
-};
+}; */
 
-const emptychar = {
+/* const character = {
   name: "",
   birthyear: "",
   gender: ""
-};
+}; */
+
+function Character({ character, heartFull, onHeartClicked, getCharFromSWAPI }) {
+  return (
+    <div>
+      <div className="nes-container with-title dt ma3 relative center">
+        <span className="title">{character.name}</span>
+
+        <div className="fl">
+          <p>Gender: {character.gender}</p>
+          <p>Birth: {character.birth_year}</p>
+        </div>
+        <div className="di ma3">
+          <i
+            className={`nes-icon is-large heart fr ${
+              heartFull ? "" : "is-empty"
+            }`}
+            onClick={onHeartClicked}
+          />
+        </div>
+      </div>
+      <div class="nes-field">
+        <label for="name_field" />
+        <input
+          type="text"
+          id="name_field"
+          className="nes-input relative center"
+          placeholder="Rechercher un personnage"
+          style={{ width: "420px" }}
+          //onSubmit={this.searchChar}
+        />
+      </div>
+    </div>
+  );
+}
+
+const toggle = b => !b;
 
 class HeartToggle extends Component {
   constructor(props) {
     super(props);
 
-    this.name = "";
-    this.gender = "";
-    this.birthyear = "";
-
-    this.state = { heartState: false };
+    this.state = {
+      character: null,
+      heartFull: false,
+      randInt: 0,
+      randMin: 1,
+      randMax: 88
+    };
   }
+
+  componentDidMount() {
+    this.fillInfo();
+    this.onHeartClick();
+  }
+
+  generateNumber = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  };
 
   onHeartClick() {
-    if (this.state.heartState) {
-      this.setState({ heartState: false });
-      this.Character(emptychar);
-    } else {
-      this.setState({ heartState: true });
-      this.Character(character);
-    }
+    this.setState(state => ({
+      heartFull: toggle(state.heartFull)
+    }));
+    this.fillInfo();
+  }
+  //88 personnages (perso random)
+  getCharFromSWAPI() {
+    this.state.randInt = this.generateNumber(
+      this.state.randMin,
+      this.state.randMax
+    );
+
+    return fetch(
+      "https://swapi.co/api/people/" + this.state.randInt + "/"
+    ).then(function(response) {
+      return response.json();
+    });
   }
 
-  Character(perso) {
-    this.name = perso.name;
-    this.gender = perso.gender;
-    this.birthyear = perso.birthyear;
+  fillInfo() {
+    this.getCharFromSWAPI()
+      .then(character => this.setState({ character: character }))
+      .catch(error => console.error(error));
   }
 
   render() {
     return (
-      <div className="nes-container with-title dt ma3 relative center">
-        <span className="title">{this.name}</span>
-
-        <div className="fl">
-          <p>Gender: {this.gender}</p>
-          <p>Birth: {this.birthyear}</p>
-        </div>
-        <div className="di ma3">
-          {this.state.heartState ? (
-            <i
-              className="nes-icon is-large heart fr"
-              onClick={() => this.onHeartClick()}
-            />
-          ) : (
-            <i
-              className="nes-icon is-large heart is-empty fr"
-              onClick={() => this.onHeartClick()}
-            />
-          )}
-        </div>
-      </div>
+      <React.Fragment>
+        {!this.state.character ? (
+          <h2>Loading...</h2>
+        ) : (
+          <Character
+            heartFull={this.state.heartFull}
+            onHeartClicked={() => this.onHeartClick()}
+            character={this.state.character}
+          />
+        )}
+      </React.Fragment>
     );
   }
 }
