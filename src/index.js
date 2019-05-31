@@ -58,8 +58,6 @@ class HeartToggle extends Component {
     this.onHeartClick();
   }
 
-  searchChar(text) {}
-
   generateNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
@@ -95,7 +93,7 @@ class HeartToggle extends Component {
     return (
       <React.Fragment>
         {!this.state.character ? (
-          <h2>Loading...</h2>
+          <p>Chargement...</p>
         ) : (
           <Character
             heartFull={this.state.heartFull}
