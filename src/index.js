@@ -15,7 +15,7 @@ import "./styles.css";
   gender: ""
 }; */
 
-function Character({ character, heartFull, onHeartClicked, getCharFromSWAPI }) {
+function Character({ character, heartFull, onHeartClicked }) {
   return (
     <div>
       <div className="nes-container with-title dt ma3 relative center">
@@ -58,6 +58,8 @@ class HeartToggle extends Component {
     this.onHeartClick();
   }
 
+  searchChar(text) {}
+
   generateNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
@@ -93,7 +95,7 @@ class HeartToggle extends Component {
     return (
       <React.Fragment>
         {!this.state.character ? (
-          <p>Chargement...</p>
+          <h2>Loading...</h2>
         ) : (
           <Character
             heartFull={this.state.heartFull}
